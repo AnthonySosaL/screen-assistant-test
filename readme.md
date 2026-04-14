@@ -1,52 +1,50 @@
-text
 # Guía de Desarrollo y Despliegue - Screen Assistant
 
 ## 1. Configuración del Entorno Virtual
 
 ### Crear y activar entorno virtual
+```
 cd "D:\PROYECTOS PERSONALES\app"
 python -m venv venv
 .\venv\Scripts\activate
-
-text
+```
 
 ### Instalar dependencias
-pip install pynput pillow perplexityai pyinstaller
-
-text
+```
+pip install pynput pillow google-genai pyinstaller
+```
 
 ## 2. Configuración de API Key
 
-Antes de compilar, asegúrate de configurar tu API key de Perplexity como variable de entorno:
+Obtén tu API key gratis en: https://aistudio.google.com/app/apikey
 
-**Opción 1: Variable de entorno (Recomendado)**
-Windows PowerShell
-$env:PERPLEXITY_API_KEY="tu_api_key_aqui"
-
-Windows CMD
-set PERPLEXITY_API_KEY=tu_api_key_aqui
-
-text
-
-**Opción 2: Archivo .env**
-Crea un archivo `.env` en la raíz del proyecto:
-PERPLEXITY_API_KEY=tu_api_key_aqui
-
-text
-
-Y modifica el código para leer desde `.env`:
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
-self.client = Perplexity(api_key=os.getenv('PERPLEXITY_API_KEY'))
-
-text
+Pon la key directamente en `app.pyw` línea 9:
+```python
+API_KEY = "tu_api_key_aqui"
+```
 
 ## 3. Compilar a Ejecutable
 
+```
 pyinstaller --onefile --noconsole --name "WindowsUpdateService" --icon=NONE app.pyw
-
-text
+```
 
 El archivo `.exe` estará en: `dist\WindowsUpdateService.exe`
+
+Copia ese `.exe` a cualquier PC con Windows y funciona sin instalar nada.
+
+## 4. Uso
+
+- `Ctrl+Alt+S` — Captura pantalla y analiza con IA
+- `Ctrl+Alt+H` — Muestra/oculta la respuesta
+
+## 5. Modelos (rotación automática, gratis)
+
+| Modelo | RPD |
+|--------|-----|
+| gemini-3.1-flash-lite-preview | 500 |
+| gemini-2.5-flash-lite | 20 |
+| gemini-2.5-flash | 20 |
+| gemini-3-flash-preview | 20 |
+
+Reset diario a las 7:00 PM (Ecuador, UTC-5).
